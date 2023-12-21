@@ -1,34 +1,28 @@
-import { ways, differences } from "../data";
-import LiBlock from "./LiBlock";
-import Button from "./Button/Button";
+import TeachingSection from "./TeachingSection";
+import DifferenceSection from "./DifferenceSection";
+import IntroSection from "./IntroSection";
+import TabsSection from "./TabsSecton";
+import FeedBack from "./FeedBack";
 import { useState } from "react";
 
 export default function Header() {
-  let [contentType, setContentType] = useState(null);
-
-  function handleClick(type) {
-    setContentType(type);
-  }
-
+  const [tab, setTab] = useState("feedback");
   return (
     <main>
       <div className="main_block">
-        <h1>Hello React!</h1>
-
-        <section>
-          <ul>
-            {ways.map(way => <LiBlock key={way.title} {...way} />)}
-          </ul>
-        </section>
-        <section>
-          <h3>Чем мы отличаемся от других</h3>
-          <Button isActive={contentType === 'way'} onClick={() => handleClick("way")}>Подход</Button>
-          <Button isActive={contentType === 'easy'} onClick={() => handleClick("easy")}>Доступность</Button>
-          <Button isActive={contentType === 'program'} onClick={() => handleClick("program")}>Концентрация</Button>
-
-          {!contentType && <p>Нажми на кнопку</p>}
-          {contentType && <p>{differences[contentType]}</p>}
-        </section>
+        <IntroSection />
+        <TabsSection active={tab} onChange={(current) => setTab(current)} />
+        {tab === "main" && (
+          <>
+            <TeachingSection />
+            <DifferenceSection />
+          </>
+        )}
+        {tab === "feedback" && (
+          <>
+            <FeedBack />
+          </>
+        )}
       </div>
     </main>
   );
